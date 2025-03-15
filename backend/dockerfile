@@ -1,0 +1,21 @@
+# ベースイメージは利用したいRubyのバージョンに合わせる
+FROM ruby:3.2
+
+# 必要なパッケージをインストール (Node.jsやYarnを使う場合は追加)
+RUN apt-get update -qq && apt-get install -y build-essential
+
+# 作業ディレクトリを作成
+WORKDIR /usr/src/app
+
+# Gemfile / Gemfile.lock を先にコピーしてbundle installを行う
+COPY Gemfile Gemfile.lock ./
+RUN bundle install
+
+# アプリケーションのソースコードをコピー
+COPY . .
+
+# Rails起動時のポートを明示
+EXPOSE 3001
+
+# Railsを起動するコマンド
+CMD ["bundle", "exec", "rails", "s", "-p", "3001", "-b", "0.0.0.0"]

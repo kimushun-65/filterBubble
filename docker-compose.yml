@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  # ===== Rails (API) =====
+  backend:
+    # Dockerfileの場所 (./back-end ディレクトリを指定)
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: rails-backend
+    # ポート:ホスト側:コンテナ側
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./back-end:/usr/src/app
+    environment:
+      RAILS_ENV: development
+    depends_on: []
+
+  # ===== Next.js (Frontend) =====
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: next-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./front-end:/usr/src/app
+    environment:
+      # NEXT_PUBLIC_XXX などFirebaseの環境変数を設定する場合
+      NEXT_PUBLIC_FIREBASE_API_KEY: "your-api-key"
+      NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: "your-auth-domain"
+      NEXT_PUBLIC_FIREBASE_PROJECT_ID: "your-project-id"
