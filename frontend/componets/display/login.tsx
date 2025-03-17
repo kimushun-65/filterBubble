@@ -1,51 +1,58 @@
 // LoginContainer.tsx
-import React, { useState } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '@/firebase/config'; // ↑のauthをインポート
-import { useRouter } from 'next/navigation'; // React Router v6の場合
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { User } from '@/types/user';
+import { fetchUser } from '@/hooks/fetchUser';
 
 const LoginContainer: React.FC = () => {
   const router = useRouter();
-  const [email, setEmail] = useState('');
+  const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const [dbUsers, setDbUsers] = useState<User[]>([]);
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      // ログイン成功したら /home にリダイレクト
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const users = await fetchUser();
+      setDbUsers(users);
+      console.log(users);
+    };
+    fetchUsers();
+  }, []);
+
+  const handleLogin = async () => {
+    const user = dbUsers.find(
+      (user) => user.userName === userName && user.password === password,
+    );
+    if (user) {
       router.push('/home');
-    } catch (error) {
-      console.error('Login error:', error);
-      alert('ログインに失敗しました');
+    } else {
+      console.log('ユーザーが見つかりません');
     }
   };
 
   return (
     <div>
       <h1>ログイン</h1>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label>メールアドレス</label>
-          <input
-            type='email'
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder='example@example.com'
-            required
-          />
-        </div>
-        <div>
-          <label>パスワード</label>
-          <input
-            type='password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type='submit'>ログイン</button>
-      </form>
+      <div>
+        <label>ユーザー名</label>
+        <input
+          type='text'
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+          placeholder='example@example.com'
+          required
+        />
+      </div>
+      <div>
+        <label>パスワード</label>
+        <input
+          type='password'
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+      </div>
+      <button onClick={handleLogin}>ログイン</button>
     </div>
   );
 };
