@@ -32,4 +32,4 @@ RUN npx msw init public/ --save
 EXPOSE 3000
 
 # コンテナ起動時に npm run dev で起動
-CMD ["npm", "run", "dev"
+CMD ["npm", "run", "dev"]
