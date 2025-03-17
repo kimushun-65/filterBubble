@@ -24,10 +24,13 @@ const HomeContainer = () => {
   useEffect(() => {
     const fetchUserGenresEvaluation = async () => {
       const userGenresEvaluation = await fetchGenresEvaluation();
-      setUserGenresEvaluation(userGenresEvaluation);
+      const filteredGenres = userGenresEvaluation.filter(
+        (genre) => genre.userId === userId,
+      );
+      setUserGenresEvaluation(filteredGenres);
       const genres = await fetchGenre();
       const interestGenres: Genre[] = [];
-      for (const userGenreEvaluation of userGenresEvaluation) {
+      for (const userGenreEvaluation of filteredGenres) {
         if (userGenreEvaluation.evaluation === 5) {
           const matchingGenre = genres.find(
             (genre) => genre.id === userGenreEvaluation.genreId,
