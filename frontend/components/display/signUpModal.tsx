@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/firebase/config';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -15,8 +15,17 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ onClose }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  const generateRandomId = () => {
+    const chars =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < 20; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+  };
+
   const handleSignUp = async () => {
-    // Basic validation
     if (!userName || !password) {
       toast.error('ユーザー名とパスワードを入力してください');
       return;
@@ -30,22 +39,22 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ onClose }) => {
     setIsLoading(true);
 
     try {
-      // Add user to Firestore
-      const userRef = collection(db, 'users');
-      await addDoc(userRef, {
+      const usersCollection = collection(db, 'users');
+      const userId = generateRandomId();
+      const userDocRef = doc(usersCollection, userId);
+      await setDoc(userDocRef, {
         userName,
-        password, // Note: In a real app, you should hash passwords
+        password,
         createdAt: serverTimestamp(),
+        userId: userId, // Store the userId in the document as well
       });
 
       toast.success('アカウント作成成功');
 
-      // Close modal if onClose prop exists
       if (onClose) {
         onClose();
       }
 
-      // Navigate to home page after a short delay
       setTimeout(() => {
         router.push('/home');
       }, 1500);
