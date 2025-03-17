@@ -46,5 +46,5 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 end
 
-  gem 'grape-swagger-rails'
-  gem 'swagger-docs'
+gem 'grape-swagger-rails'
+gem 'news-api'
