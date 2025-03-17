@@ -6,6 +6,7 @@ import { fetchUser } from '@/hooks/fetchUser';
 import toast, { Toaster } from 'react-hot-toast';
 import Image from 'next/image';
 import SignUpModal from './signUpModal';
+import Loading from '../loading';
 
 const LoginContainer: React.FC = () => {
   const router = useRouter();
@@ -13,11 +14,12 @@ const LoginContainer: React.FC = () => {
   const [password, setPassword] = useState('');
   const [dbUsers, setDbUsers] = useState<User[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const fetchUsers = async () => {
       const users = await fetchUser();
       setDbUsers(users);
+      setIsLoading(false);
       console.log(users);
     };
     fetchUsers();
@@ -30,6 +32,7 @@ const LoginContainer: React.FC = () => {
     if (user) {
       toast.success('ログイン成功');
       setTimeout(() => {
+        setIsLoading(true);
         router.push('/home');
       }, 1500);
     } else {
@@ -40,6 +43,10 @@ const LoginContainer: React.FC = () => {
   const handleSignUp = () => {
     setIsModalOpen(true);
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className='relative flex min-h-screen flex-col items-center justify-center'>

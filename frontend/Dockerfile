@@ -7,14 +7,20 @@ WORKDIR /app
 # Alpine Linux に不足しているビルドに必要なパッケージをインストール
 RUN apk add --no-cache python3 make g++
 
+# node_modulesを再インストールする前にキャッシュをクリア
+RUN npm cache clean --force
+RUN rm -rf node_modules
+
 # package.json と package-lock.json をコピー
 COPY package*.json ./
 
 # 開発環境を指定
 #   - devDependencies も含めてインストールするために NODE_ENV=development にする
 #   - Next.js Telemetry を無効化
+#   - Tailwind CSS Oxide エンジンを無効化
 ENV NODE_ENV=development
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV TAILWIND_DISABLE_OXIDE=1
 
 # 依存関係をインストール（devDependencies も含む）
 RUN npm install
@@ -32,4 +38,4 @@ RUN npx msw init public/ --save
 EXPOSE 3000
 
 # コンテナ起動時に npm run dev で起動
-CMD ["npm", "run", "dev"
+CMD ["npm", "run", "dev"]

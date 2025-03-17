@@ -58,7 +58,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ onClose }) => {
   };
 
   return (
-    <div className='bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black'>
+    <div className='bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-gray-500'>
       <div className='w-96 rounded-lg bg-white p-8 shadow-xl'>
         <Toaster position='top-center' />
 
