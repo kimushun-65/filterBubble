@@ -41,8 +41,6 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
       return;
     }
 
-    setIsLoading(true);
-
     try {
       const usersCollection = collection(db, 'users');
       const userId = generateRandomId();
@@ -51,18 +49,11 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
         userName,
         password,
         createdAt: serverTimestamp(),
-        userId: userId,
       });
 
       toast.success('アカウント作成成功');
-
-      if (onClose) {
-        onClose();
-      }
-
-      setTimeout(() => {
-        router.push(`/enquete/${userId}`);
-      }, 1500);
+      setIsLoading(true);
+      router.push(`/enquete/${userId}`);
     } catch (error) {
       console.error('Error creating user:', error);
       toast.error('アカウント作成に失敗しました');

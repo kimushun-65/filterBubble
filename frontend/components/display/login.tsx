@@ -108,7 +108,13 @@ const LoginContainer: React.FC = () => {
           アカウント作成
         </div>
       </div>
-      {isModalOpen && <SignUpModal onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && (
+        <SignUpModal
+          onClose={() => setIsModalOpen(false)}
+          setIsLoading={setIsLoading}
+          isLoading={isLoading}
+        />
+      )}
     </div>
   );
 };
