@@ -28,5 +28,8 @@
     "prettier": "^3.5.3",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "overrides": {
+    "@tailwindcss/oxide": "^0.0.0-insiders.7d89721"
   }
 }

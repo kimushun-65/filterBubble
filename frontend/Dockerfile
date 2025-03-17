@@ -7,6 +7,10 @@ WORKDIR /app
 # Alpine Linux に不足しているビルドに必要なパッケージをインストール
 RUN apk add --no-cache python3 make g++
 
+# node_modulesを再インストールする前にキャッシュをクリア
+RUN npm cache clean --force
+RUN rm -rf node_modules
+
 # package.json と package-lock.json をコピー
 COPY package*.json ./
 
