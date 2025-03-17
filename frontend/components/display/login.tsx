@@ -29,11 +29,13 @@ const LoginContainer: React.FC = () => {
     const user = dbUsers.find(
       (user) => user.userName === userName && user.password === password,
     );
+    console.log(user);
+    const userId = user?.id;
 
     if (user) {
       toast.success('ログイン成功');
       setTimeout(() => {
-        router.push('/home');
+        router.push(`/home/${userId}`);
       }, 1500);
     } else {
       toast.error('ログイン失敗');

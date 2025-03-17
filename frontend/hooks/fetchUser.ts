@@ -5,6 +5,8 @@ import { User } from '@/types/user';
 export const fetchUser = async (): Promise<User[]> => {
   const usersCollection = collection(db, 'users');
   const usersSnapshot = await getDocs(usersCollection);
-  const users = usersSnapshot.docs.map((doc) => doc.data() as User);
-  return users;
+  return usersSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...(doc.data() as Omit<User, 'id'>),
+  }));
 };
