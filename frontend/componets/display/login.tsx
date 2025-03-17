@@ -5,12 +5,14 @@ import { User } from '@/types/user';
 import { fetchUser } from '@/hooks/fetchUser';
 import toast, { Toaster } from 'react-hot-toast';
 import Image from 'next/image';
+import SignUpModal from './signUpModal';
 
 const LoginContainer: React.FC = () => {
   const router = useRouter();
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [dbUsers, setDbUsers] = useState<User[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -34,6 +36,9 @@ const LoginContainer: React.FC = () => {
       toast.error('ログイン失敗');
       console.log('ユーザーが見つかりません');
     }
+  };
+  const handleSignUp = () => {
+    setIsModalOpen(true);
   };
 
   return (
@@ -87,13 +92,14 @@ const LoginContainer: React.FC = () => {
         >
           ログイン
         </button>
-
-        <div className='mt-6 text-center'>
-          <a href='#' className='text-slate-700 hover:underline'>
-            Sign Up
-          </a>
+        <div
+          className='mt-6 cursor-pointer text-center text-slate-700 hover:underline'
+          onClick={handleSignUp}
+        >
+          アカウント作成
         </div>
       </div>
+      {isModalOpen && <SignUpModal onClose={() => setIsModalOpen(false)} />}
     </div>
   );
 };
