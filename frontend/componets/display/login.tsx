@@ -38,7 +38,6 @@ const LoginContainer: React.FC = () => {
 
   return (
     <div className='relative flex min-h-screen flex-col items-center justify-center'>
-      {/* Background Image */}
       <div className='absolute inset-0 z-0'>
         <Image
           src='/bubble.jpeg'
@@ -49,15 +48,12 @@ const LoginContainer: React.FC = () => {
         />
       </div>
 
-      {/* Toast Container */}
       <Toaster position='top-center' />
 
-      {/* Title */}
-      <h1 className='z-10 mb-16 text-5xl font-bold text-black'>
+      <h1 className='z-10 mb-16 flex justify-center text-4xl font-bold text-black'>
         Break Filter Bubble
       </h1>
 
-      {/* Login Form */}
       <div className='bg-opacity-80 z-10 w-96 rounded-lg bg-gray-100 p-10 shadow-xl'>
         <h2 className='mb-8 text-center text-3xl font-semibold text-slate-700'>
           Login
