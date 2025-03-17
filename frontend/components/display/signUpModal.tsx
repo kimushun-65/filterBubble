@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "@/firebase/config";
-// import toast, { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 interface SignUpModalProps {
   onClose?: () => void;
@@ -18,12 +18,12 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ onClose }) => {
   const handleSignUp = async () => {
     // Basic validation
     if (!userName || !password) {
-      //   toast.error("ユーザー名とパスワードを入力してください");
+      toast.error("ユーザー名とパスワードを入力してください");
       return;
     }
 
     if (password !== confirmPassword) {
-      //   toast.error("パスワードが一致しません");
+      toast.error("パスワードが一致しません");
       return;
     }
 
@@ -38,7 +38,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ onClose }) => {
         createdAt: serverTimestamp(),
       });
 
-      //   toast.success("アカウント作成成功");
+      toast.success("アカウント作成成功");
 
       // Close modal if onClose prop exists
       if (onClose) {
@@ -51,7 +51,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ onClose }) => {
       }, 1500);
     } catch (error) {
       console.error("Error creating user:", error);
-      //   toast.error("アカウント作成に失敗しました");
+      toast.error("アカウント作成に失敗しました");
     } finally {
       setIsLoading(false);
     }
@@ -60,7 +60,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ onClose }) => {
   return (
     <div className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-gray-500">
       <div className="w-96 rounded-lg bg-white p-8 shadow-xl">
-        {/* <Toaster position="top-center" /> */}
+        <Toaster position="top-center" />
 
         <h2 className="mb-6 text-center text-2xl font-semibold text-slate-700">
           アカウント作成

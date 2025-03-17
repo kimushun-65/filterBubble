@@ -1,11 +1,12 @@
 // LoginContainer.tsx
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-// import toast, { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import Image from "next/image";
 import SignUpModal from "@/components/display/signUpModal";
 import { User } from "@/types/user";
 import { fetchUser } from "@/hooks/fetchUser";
+import Loading from "@/components/display/loading";
 
 const LoginContainer: React.FC = () => {
   const router = useRouter();
@@ -13,12 +14,12 @@ const LoginContainer: React.FC = () => {
   const [password, setPassword] = useState("");
   const [dbUsers, setDbUsers] = useState<User[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  //   const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const fetchUsers = async () => {
       const users = await fetchUser();
       setDbUsers(users);
-      //   setIsLoading(false);
+      setIsLoading(false);
       console.log(users);
     };
     fetchUsers();
@@ -29,13 +30,12 @@ const LoginContainer: React.FC = () => {
       (user) => user.userName === userName && user.password === password
     );
     if (user) {
-      //   toast.success("ログイン成功");
+      toast.success("ログイン成功");
       setTimeout(() => {
-        // setIsLoading(true);
         router.push("/home");
       }, 1500);
     } else {
-      //   toast.error("ログイン失敗");
+      toast.error("ログイン失敗");
       console.log("ユーザーが見つかりません");
     }
   };
@@ -43,9 +43,9 @@ const LoginContainer: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  //   if (isLoading) {
-  //     return <Loading />;
-  //   }
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center">
@@ -59,7 +59,7 @@ const LoginContainer: React.FC = () => {
         />
       </div>
 
-      {/* <Toaster position="top-center" /> */}
+      <Toaster position="top-center" />
 
       <h1 className="z-10 mb-16 flex justify-center text-4xl font-bold text-black">
         Break Filter Bubble
