@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { UserGenresEvaluation } from '@/types/userGenresEvaluation';
 import { Genre } from '@/types/genres';
 import Loading from '@/components/display/loading';
+import { useRouter } from 'next/navigation';
 
 const HomeContainer = () => {
   const { userId } = useParams();
@@ -16,6 +17,7 @@ const HomeContainer = () => {
   const [interestGenres, setInterestGenres] = useState<Genre[]>([]);
   const [difficultyGenres, setDifficultyGenres] = useState<Genre[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchUserGenresEvaluation = async () => {
@@ -60,13 +62,19 @@ const HomeContainer = () => {
   }, [userId]);
 
   const handleGetArticles = () => {
-    // Implement get articles functionality
-    console.log('Getting articles...');
+    const randomIndex = Math.floor(
+      Math.random() * (difficultyGenres.length - 1),
+    );
+    const selectedGenre = difficultyGenres[randomIndex];
+    const keywords = selectedGenre.keyWords;
+    const keyword = keywords[Math.floor(Math.random() * (keywords.length - 1))];
+    console.log(keyword);
+    //この後バックエンドと接続
+    router.push(`/article/${userId}`);
   };
 
-  const handleReset = () => {
-    // Implement reset functionality
-    console.log('Resetting...');
+  const handleAgain = () => {
+    router.push(`/enquete/${userId}`);
   };
   if (isLoading) {
     return <Loading />;
@@ -74,7 +82,6 @@ const HomeContainer = () => {
 
   return (
     <div className='mx-auto flex min-h-screen max-w-md flex-col pt-6'>
-      {/* Header */}
       <header className='mb-12 flex items-center justify-between px-4 shadow-lg'>
         <h1 className='relative mb-2 ml-6 border-b-2 px-4 py-2 text-3xl font-bold text-slate-700 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:bg-gradient-to-r after:from-[#00D2FF] after:to-[#3A7BD5]'>
           Break Filter Bubble
@@ -98,9 +105,7 @@ const HomeContainer = () => {
         </button>
       </header>
 
-      {/* Main Content */}
       <main className='flex flex-grow flex-col items-center justify-start gap-24 px-4'>
-        {/* Get Articles Button */}
         <Button
           className='mt-12 flex w-1/2 items-center justify-center gap-2 bg-gradient-to-r from-[#00D2FF] to-[#3A7BD5] py-6 text-xl hover:opacity-90'
           onClick={handleGetArticles}
@@ -138,7 +143,6 @@ const HomeContainer = () => {
           </svg>
         </Button>
 
-        {/* Interest Genres Card */}
         <div className='w-full rounded-lg border p-6 shadow-xl'>
           <div className='relative mb-6 pl-6'>
             <div className='absolute top-0 left-0 h-full w-2 rounded-md bg-gradient-to-b from-[#00D2FF] via-[#1A9FE5] to-[#3A7BD5]'></div>
@@ -179,7 +183,7 @@ const HomeContainer = () => {
             <Button
               variant='outline'
               className='border-gradient flex w-full items-center justify-center gap-2 border-2 bg-white from-[#00D2FF] to-[#3A7BD5] py-4 text-[#3A7BD5]'
-              onClick={handleReset}
+              onClick={handleAgain}
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -217,7 +221,6 @@ const HomeContainer = () => {
         </div>
       </main>
 
-      {/* Footer */}
       <footer>
         <div className='flex h-full w-full items-center justify-center rounded-md bg-gradient-to-r from-[#00D2FF] to-[#3A7BD5] py-4 text-white'>
           <svg
