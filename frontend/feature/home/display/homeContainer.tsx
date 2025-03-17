@@ -12,6 +12,7 @@ const HomeContainer = () => {
     UserGenresEvaluation[]
   >([]);
   const [interestGenres, setInterestGenres] = useState<Genre[]>([]);
+  const [difficultyGenres, setDifficultyGenres] = useState<Genre[]>([]);
 
   useEffect(() => {
     const fetchUserGenresEvaluation = async () => {
@@ -26,13 +27,34 @@ const HomeContainer = () => {
           );
           if (matchingGenre) {
             interestGenres.push(matchingGenre);
-            console.log(matchingGenre);
           }
         }
+        setInterestGenres(interestGenres);
       }
+      const difficultyGenres: Genre[] = [];
+      let minEvaluation = 1;
+      while (difficultyGenres.length === 0 && minEvaluation <= 5) {
+        for (const userGenreEvaluation of userGenresEvaluation) {
+          if (userGenreEvaluation.evaluation === minEvaluation) {
+            const matchingGenre = genres.find(
+              (genre) => genre.id === userGenreEvaluation.genreId,
+            );
+            if (matchingGenre) {
+              difficultyGenres.push(matchingGenre);
+            }
+          }
+        }
+        if (difficultyGenres.length === 0) {
+          minEvaluation += 1;
+        } else {
+          break;
+        }
+      }
+      setDifficultyGenres(difficultyGenres);
     };
     fetchUserGenresEvaluation();
   }, [userId]);
+
   return <div>HomeContainer</div>;
 };
 
