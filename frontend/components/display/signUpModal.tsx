@@ -6,14 +6,19 @@ import toast, { Toaster } from 'react-hot-toast';
 
 interface SignUpModalProps {
   onClose?: () => void;
+  setIsLoading: (isLoading: boolean) => void;
+  isLoading: boolean;
 }
 
-const SignUpModal: React.FC<SignUpModalProps> = ({ onClose }) => {
+const SignUpModal: React.FC<SignUpModalProps> = ({
+  onClose,
+  setIsLoading,
+  isLoading,
+}) => {
   const router = useRouter();
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
   const generateRandomId = () => {
     const chars =
@@ -46,7 +51,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ onClose }) => {
         userName,
         password,
         createdAt: serverTimestamp(),
-        userId: userId, // Store the userId in the document as well
+        userId: userId,
       });
 
       toast.success('アカウント作成成功');
@@ -56,7 +61,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ onClose }) => {
       }
 
       setTimeout(() => {
-        router.push('/home');
+        router.push(`/enquete/${userId}`);
       }, 1500);
     } catch (error) {
       console.error('Error creating user:', error);
@@ -67,7 +72,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ onClose }) => {
   };
 
   return (
-    <div className='bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-gray-500'>
+    <div className='bg-opacity-90 fixed inset-0 z-50 flex items-center justify-center bg-[url("/bubble.jpeg")] bg-cover bg-center bg-no-repeat backdrop-blur-sm'>
       <div className='w-96 rounded-lg bg-white p-8 shadow-xl'>
         <Toaster position='top-center' />
 
