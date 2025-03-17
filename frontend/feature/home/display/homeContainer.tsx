@@ -140,7 +140,8 @@ const HomeContainer = () => {
 
         {/* Interest Genres Card */}
         <div className='w-full rounded-lg border p-6 shadow-xl'>
-          <div className='mb-6 border-l-4 border-blue-500 pl-4'>
+          <div className='relative mb-6 pl-4'>
+            <div className='absolute top-0 left-0 h-full w-1.5 rounded-sm bg-gradient-to-b from-[#00D2FF] to-[#3A7BD5]'></div>
             <h2 className='text-2xl font-semibold text-slate-800'>
               Your Interest Genre
             </h2>
@@ -177,7 +178,7 @@ const HomeContainer = () => {
           <div className='mt-6'>
             <Button
               variant='outline'
-              className='flex w-full items-center justify-center gap-2 border-blue-500 py-4 text-blue-500 hover:bg-gradient-to-r hover:from-[#00D2FF] hover:to-[#3A7BD5] hover:text-white'
+              className='flex w-full items-center justify-center gap-2 border-2 border-transparent bg-white py-4 text-[#3A7BD5] hover:bg-gradient-to-r hover:from-[#00D2FF] hover:to-[#3A7BD5] hover:text-white'
               onClick={handleReset}
             >
               <svg
@@ -195,7 +196,7 @@ const HomeContainer = () => {
                 <path d='M12 8v8'></path>
                 <path d='M8 12h8'></path>
               </svg>
-              reset
+              Select Again
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 width='18'
