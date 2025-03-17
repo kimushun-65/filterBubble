@@ -96,7 +96,7 @@ const HomeContainer = () => {
       <main className='flex flex-grow flex-col items-center justify-start gap-8'>
         {/* Get Articles Button */}
         <Button
-          className='flex w-full items-center justify-center gap-2 bg-blue-500 py-6 text-xl hover:bg-blue-600'
+          className='flex w-full items-center justify-center gap-2 bg-gradient-to-r from-[#00D2FF] to-[#3A7BD5] py-6 text-xl hover:opacity-90'
           onClick={handleGetArticles}
         >
           <svg
@@ -171,7 +171,7 @@ const HomeContainer = () => {
           <div className='mt-6'>
             <Button
               variant='outline'
-              className='flex w-full items-center justify-center gap-2 border-blue-500 py-4 text-blue-500 hover:bg-blue-50'
+              className='flex w-full items-center justify-center gap-2 border-blue-500 py-4 text-blue-500 hover:bg-gradient-to-r hover:from-[#00D2FF] hover:to-[#3A7BD5] hover:text-white'
               onClick={handleReset}
             >
               <svg
@@ -212,7 +212,7 @@ const HomeContainer = () => {
 
       {/* Footer */}
       <footer className='mt-8 py-4'>
-        <div className='flex w-full items-center justify-center rounded-md bg-blue-500 py-4 text-white'>
+        <div className='flex w-full items-center justify-center rounded-md bg-gradient-to-r from-[#00D2FF] to-[#3A7BD5] py-4 text-white'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             width='20'
