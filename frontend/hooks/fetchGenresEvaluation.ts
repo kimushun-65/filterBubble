@@ -5,7 +5,7 @@ import { UserGenresEvaluation } from '@/types/userGenresEvaluation';
 export const fetchGenresEvaluation = async (): Promise<
   UserGenresEvaluation[]
 > => {
-  const genresEvaluationCollection = collection(db, 'genresEvaluation');
+  const genresEvaluationCollection = collection(db, 'usersGenresEvaluation');
   const genresEvaluationSnapshot = await getDocs(genresEvaluationCollection);
   return genresEvaluationSnapshot.docs.map((doc) => ({
     id: doc.id,
