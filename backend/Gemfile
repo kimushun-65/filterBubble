@@ -48,3 +48,4 @@ end
 
 gem 'grape-swagger-rails'
 gem 'news-api'
+gem 'httparty'
