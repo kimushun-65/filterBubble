@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 
 import { UserGenresEvaluation } from '@/types/userGenresEvaluation';
 import { Genre } from '@/types/genres';
+import Loading from '@/components/display/loading';
 
 const HomeContainer = () => {
   const { userId } = useParams();
@@ -14,6 +15,7 @@ const HomeContainer = () => {
   >([]);
   const [interestGenres, setInterestGenres] = useState<Genre[]>([]);
   const [difficultyGenres, setDifficultyGenres] = useState<Genre[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserGenresEvaluation = async () => {
@@ -54,6 +56,7 @@ const HomeContainer = () => {
       setDifficultyGenres(difficultyGenres);
     };
     fetchUserGenresEvaluation();
+    setIsLoading(false);
   }, [userId]);
 
   const handleGetArticles = () => {
@@ -65,12 +68,15 @@ const HomeContainer = () => {
     // Implement reset functionality
     console.log('Resetting...');
   };
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
-    <div className='mx-auto flex min-h-screen max-w-md flex-col px-4 py-6'>
+    <div className='mx-auto flex min-h-screen max-w-md flex-col pt-6'>
       {/* Header */}
-      <header className='mb-12 flex items-center justify-between'>
-        <h1 className='text-3xl font-bold text-slate-700'>
+      <header className='mb-12 flex items-center justify-between px-4 shadow-lg'>
+        <h1 className='relative mb-2 ml-6 border-b-2 px-4 py-2 text-3xl font-bold text-slate-700 after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:bg-gradient-to-r after:from-[#00D2FF] after:to-[#3A7BD5]'>
           Break Filter Bubble
         </h1>
         <button className='p-2' aria-label='Settings'>
@@ -93,10 +99,10 @@ const HomeContainer = () => {
       </header>
 
       {/* Main Content */}
-      <main className='flex flex-grow flex-col items-center justify-start gap-8'>
+      <main className='flex flex-grow flex-col items-center justify-start gap-24 px-4'>
         {/* Get Articles Button */}
         <Button
-          className='flex w-full items-center justify-center gap-2 bg-gradient-to-r from-[#00D2FF] to-[#3A7BD5] py-6 text-xl hover:opacity-90'
+          className='mt-12 flex w-1/2 items-center justify-center gap-2 bg-gradient-to-r from-[#00D2FF] to-[#3A7BD5] py-6 text-xl hover:opacity-90'
           onClick={handleGetArticles}
         >
           <svg
@@ -133,7 +139,7 @@ const HomeContainer = () => {
         </Button>
 
         {/* Interest Genres Card */}
-        <div className='w-full rounded-lg border p-6 shadow-sm'>
+        <div className='w-full rounded-lg border p-6 shadow-xl'>
           <div className='mb-6 border-l-4 border-blue-500 pl-4'>
             <h2 className='text-2xl font-semibold text-slate-800'>
               Your Interest Genre
@@ -211,8 +217,8 @@ const HomeContainer = () => {
       </main>
 
       {/* Footer */}
-      <footer className='mt-8 py-4'>
-        <div className='flex w-full items-center justify-center rounded-md bg-gradient-to-r from-[#00D2FF] to-[#3A7BD5] py-4 text-white'>
+      <footer>
+        <div className='flex h-full w-full items-center justify-center rounded-md bg-gradient-to-r from-[#00D2FF] to-[#3A7BD5] py-4 text-white'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             width='20'
@@ -229,7 +235,7 @@ const HomeContainer = () => {
             <path d='M12 8v8'></path>
             <path d='M8 12h8'></path>
           </svg>
-          Get articles
+          Break Filter Bubble
         </div>
       </footer>
     </div>
