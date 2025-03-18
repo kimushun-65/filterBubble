@@ -26,16 +26,21 @@ export const ArticleContainer = () => {
         const data = await response.json();
         setTitle(data.article.articles.title);
         setContent(data.article.articles.content);
-        setIsLoading(false);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1500);
       } catch (error) {
         console.error('Error fetching article:', error);
-        setIsLoading(false);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1500);
       }
     };
     fetchArticle();
   }, [keyWord]);
 
   const handleHomeClick = () => {
+    setIsLoading(true);
     router.push(`/home/${userId}`);
   };
 

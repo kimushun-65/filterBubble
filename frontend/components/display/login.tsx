@@ -53,7 +53,6 @@ const LoginContainer: React.FC = () => {
   return (
     <div className='relative flex min-h-screen flex-col items-center justify-center bg-white'>
       <Toaster position='top-right' />
-
       <h1 className='border-b-gradient-to-r relative z-10 mb-16 flex justify-center border-b-2 from-[#00D2FF] to-[#3A7BD5] px-4 py-2 text-4xl font-bold text-black after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:bg-gradient-to-r after:from-[#00D2FF] after:to-[#3A7BD5]'>
         Login
       </h1>

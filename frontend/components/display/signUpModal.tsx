@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import { collection, doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/firebase/config';
 import toast, { Toaster } from 'react-hot-toast';
+import Loading from './loading';
 
 interface SignUpModalProps {
   onClose?: () => void;
@@ -53,7 +54,9 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
 
       toast.success('アカウント作成成功');
       setIsLoading(true);
-      router.push(`/enquete/${userId}`);
+      setTimeout(() => {
+        router.push(`/enquete/${userId}`);
+      }, 1500);
     } catch (error) {
       console.error('Error creating user:', error);
       toast.error('アカウント作成に失敗しました');
@@ -61,15 +64,18 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
       setIsLoading(false);
     }
   };
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className='bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-white'>
       <div className='flex flex-col items-center'>
-        <h2 className='mb-6 text-center text-4xl font-semibold text-slate-700'>
+        <h2 className='border-b-gradient-to-r relative z-10 mb-16 flex justify-center border-b-2 from-[#00D2FF] to-[#3A7BD5] px-4 py-2 text-4xl font-bold text-black after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:bg-gradient-to-r after:from-[#00D2FF] after:to-[#3A7BD5]'>
           アカウント作成
         </h2>
         <div className='w-96 rounded-lg bg-white p-8 shadow-xl'>
-          <Toaster position='top-center' />
+          <Toaster position='top-right' />
 
           <div className='mb-4'>
             <input
@@ -108,7 +114,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
             <button
               onClick={handleSignUp}
               disabled={isLoading}
-              className='flex-1 rounded bg-gradient-to-r from-blue-600 to-purple-600 py-3 text-white transition-colors hover:bg-gradient-to-r hover:from-blue-700 hover:to-purple-700 disabled:bg-slate-400'
+              className='flex-1 rounded bg-gradient-to-r from-[#00D2FF] to-[#3A7BD5] py-3 text-white transition-colors hover:bg-gradient-to-r hover:from-blue-700 hover:to-purple-700 disabled:bg-slate-400'
             >
               {isLoading ? '処理中...' : '登録'}
             </button>
