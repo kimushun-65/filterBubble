@@ -25,8 +25,12 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <head>
-      <meta charSet='utf-8' />
-        <link rel='manifest' href='/manifest.json' />
+        <meta charSet='utf-8' />
+        <link
+          rel='manifest'
+          href='/manifest.json'
+          crossOrigin='use-credentials'
+        />
         <link rel='icon' href='/favicon.ico' />
       </head>
       <body
