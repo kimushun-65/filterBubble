@@ -15,7 +15,7 @@ class NewsController < ApplicationController
   # }
 
   def index
-    query = params[:query]
+    query = params[:keyword]
     encoded_query = CGI.escape(query) # クエリをエンコード
     rss_url = "https://news.google.com/rss/search?q=#{encoded_query}&hl=ja&gl=JP&ceid=JP%3Aja"
 

@@ -12,24 +12,25 @@ export const ArticleContainer = () => {
   const router = useRouter();
   const params = useParams();
   const userId = params.userId as string;
-  const keyWord = decodeURIComponent(params.keyWord as string); // URLエンコードをデコード
+  const keyword = decodeURIComponent(params.keyword as string); // URLエンコードをデコード
   const [isLoading, setIsLoading] = useState(true);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [links, setLinks] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  console.log(links);
 
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const response = await fetch(`/api/news?keyWord=${keyWord}`);
+        const response = await fetch(
+          `http://localhost:3001/news?keyword=${keyword}`,
+        );
+
         const data = await response.json();
-        setTitle(data.article.articles.title);
-        setContent(data.article.articles.content);
-        setLinks(data.article.articles.link);
         console.log(data);
-        console.log(data.article.articles.link);
+        setTitle(data.title);
+        setContent(data.summary);
+        setLinks(data.links);
         setTimeout(() => {
           setIsLoading(false);
         }, 1500);
@@ -41,7 +42,7 @@ export const ArticleContainer = () => {
       }
     };
     fetchArticle();
-  }, [keyWord]);
+  }, [keyword]);
 
   if (isLoading) {
     return <Loading />;
@@ -53,7 +54,7 @@ export const ArticleContainer = () => {
       <main className='flex flex-grow flex-col'>
         <div className='w-full bg-gradient-to-r from-blue-300 to-blue-500 py-3 text-center'>
           <h2 className='text-lg font-bold text-white'>
-            キーワード：{keyWord}
+            キーワード：{keyword}
           </h2>
         </div>
         <div className='flex flex-grow justify-center px-4 py-3'>

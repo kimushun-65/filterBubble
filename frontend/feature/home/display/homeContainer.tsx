@@ -88,9 +88,10 @@ const HomeContainer = () => {
     const selectedGenre = difficultyGenres[randomIndex];
     console.log(selectedGenre);
     const keyWords = selectedGenre.keyWords;
-    const keyWord = keyWords[Math.floor(Math.random() * (keyWords.length - 1))];
-    console.log(keyWord);
-    router.push(`/article/${userId}/${keyWord}`);
+    console.log(keyWords);
+    const keyword = keyWords[Math.floor(Math.random() * (keyWords.length - 1))];
+    console.log(keyword);
+    router.push(`/article/${userId}/${keyword}`);
   };
 
   const handleAgain = () => {
