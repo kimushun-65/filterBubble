@@ -10,7 +10,6 @@ export const GET = async (req: NextRequest) => {
   const encodedQuery = encodeURIComponent(query);
   const rssUrl = `https://news.google.com/rss/search?q=${encodedQuery}&hl=ja&gl=JP&ceid=JP%3Aja`;
 
-  console.log(`Fetching RSS from: ${rssUrl}`);
   const rssResponse = await fetch(rssUrl);
   const rssText = await rssResponse.text();
 
