@@ -10,6 +10,14 @@ import Loading from '@/components/display/loading';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/display/header';
 import Footer from '@/components/display/footer';
+import { Handshake } from 'lucide-react';
+import { Computer } from 'lucide-react';
+import { FlaskConical } from 'lucide-react';
+import { Church } from 'lucide-react';
+import { CircleDollarSign } from 'lucide-react';
+import { BookX } from 'lucide-react';
+import { Landmark } from 'lucide-react';
+import { Bike } from 'lucide-react';
 
 const HomeContainer = () => {
   const { userId } = useParams();
@@ -86,7 +94,7 @@ const HomeContainer = () => {
   }
 
   return (
-    <div className='mx-auto flex min-h-screen max-w-md flex-col pt-6'>
+    <div className='flex min-h-screen flex-col'>
       <Header />
 
       <main className='flex flex-grow flex-col items-center justify-start gap-24 px-4'>
@@ -137,27 +145,47 @@ const HomeContainer = () => {
 
           <div className='space-y-4'>
             {interestGenres.length > 0 ? (
-              interestGenres.map((genre) => (
-                <div key={genre.id} className='flex items-center gap-3'>
-                  <span className='text-slate-800'>
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      width='24'
-                      height='24'
-                      viewBox='0 0 24 24'
-                      fill='none'
-                      stroke='currentColor'
-                      strokeWidth='2'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                    >
-                      <rect x='3' y='8' width='18' height='12' rx='2'></rect>
-                      <path d='M7 8V6a4 4 0 0 1 4-4h2a4 4 0 0 1 4 4v2'></path>
-                    </svg>
-                  </span>
-                  <span className='text-lg'>{genre.genreName}</span>
-                </div>
-              ))
+              interestGenres.map((genre) => {
+                let GenreIcon;
+                switch (genre.genreName) {
+                  case 'スポーツ':
+                    GenreIcon = Bike;
+                    break;
+                  case '宗教':
+                    GenreIcon = Church;
+                    break;
+                  case 'IT':
+                    GenreIcon = Computer;
+                    break;
+                  case '経済':
+                    GenreIcon = CircleDollarSign;
+                    break;
+                  case 'サイエンス':
+                    GenreIcon = FlaskConical;
+                    break;
+                  case '社会環境問題':
+                    GenreIcon = Handshake;
+                    break;
+                  case '歴史':
+                    GenreIcon = BookX;
+                    break;
+                  case '政治':
+                    GenreIcon = Landmark;
+                    break;
+                  default:
+                    GenreIcon = Bike;
+                    break;
+                }
+
+                return (
+                  <div key={genre.id} className='flex items-center gap-3'>
+                    <span className='text-slate-800'>
+                      <GenreIcon size={24} />
+                    </span>
+                    <span className='text-lg'>{genre.genreName}</span>
+                  </div>
+                );
+              })
             ) : (
               <p className='text-slate-500'>No interest genres found.</p>
             )}
