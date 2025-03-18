@@ -7,8 +7,20 @@ import Footer from '@/components/display/footer';
 import { Handshake } from 'lucide-react';
 
 export const ArticleContainer = () => {
-  const { userId } = useParams();
+  const { userId, keyWord } = useParams();
   const [isLoading, setIsLoading] = useState(false);
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+
+  useEffect(() => {
+    const fetchArticle = async () => {
+      const response = await fetch(`/api/article?keyWord=${keyWord}`);
+      const data = await response.json();
+      setTitle(data.article.articles.title);
+      setContent(data.article.articles.content);
+    };
+    fetchArticle();
+  }, [keyWord]);
 
   if (isLoading) {
     return <Loading />;
@@ -18,7 +30,8 @@ export const ArticleContainer = () => {
     <div className='flex min-h-screen flex-col'>
       <Header />
       <main className='flex-grow'>
-        <h1>Article</h1>
+        <h1>{title}</h1>
+        <p>{content}</p>
       </main>
       <Footer />
     </div>

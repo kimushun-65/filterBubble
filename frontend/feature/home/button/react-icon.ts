@@ -1,11 +1,8 @@
 'use client';
 
-// 1) lucide-react から createLucideIcon をインポート
 import { createLucideIcon } from 'lucide-react';
 
-// 2) カスタムアイコンを定義
 export const ReactIcon = createLucideIcon('ReactIcon', [
-  // ● 中央の白いドット
   [
     'circle',
     {
@@ -16,7 +13,6 @@ export const ReactIcon = createLucideIcon('ReactIcon', [
       key: 'center-dot',
     },
   ],
-  // ★ React ロゴの楕円1つめ (水平方向)
   [
     'path',
     {
@@ -27,7 +23,6 @@ export const ReactIcon = createLucideIcon('ReactIcon', [
       key: 'ellipse1',
     },
   ],
-  // ★ React ロゴの楕円2つめ (60°回転)
   [
     'path',
     {
@@ -39,7 +34,6 @@ export const ReactIcon = createLucideIcon('ReactIcon', [
       key: 'ellipse2',
     },
   ],
-  // ★ React ロゴの楕円3つめ (120°回転)
   [
     'path',
     {

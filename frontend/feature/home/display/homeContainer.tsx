@@ -84,21 +84,11 @@ const HomeContainer = () => {
       Math.random() * (difficultyGenres.length - 1),
     );
     const selectedGenre = difficultyGenres[randomIndex];
+    console.log(selectedGenre);
     const keyWords = selectedGenre.keyWords;
     const keyWord = keyWords[Math.floor(Math.random() * (keyWords.length - 1))];
     console.log(keyWord);
-    //この後バックエンドと接続
-    const fetchArticle = async () => {
-      try {
-        const response = await fetch(`/api/article?keyWord=${keyWord}`);
-        const data = await response.json();
-        setArticle(data.message);
-      } catch (error) {
-        console.error('Error fetching article:', error);
-      }
-    };
-    fetchArticle();
-    router.push(`/article/${userId}`);
+    router.push(`/article/${userId}/${keyWord}`);
   };
 
   const handleAgain = () => {

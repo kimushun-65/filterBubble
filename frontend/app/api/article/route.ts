@@ -1,4 +1,5 @@
 import { NextResponse, NextRequest } from 'next/server';
+import articleMock from './article-mock.json';
 
 export async function GET(request: NextRequest) {
   const keyWord = request.nextUrl.searchParams.get('keyWord');
@@ -8,6 +9,9 @@ export async function GET(request: NextRequest) {
       { status: 400 },
     );
   }
-  const data = { message: `You searched for "${keyWord}"` };
+  const data = {
+    message: `You searched for "${keyWord}"`,
+    article: articleMock,
+  };
   return NextResponse.json(data);
 }
