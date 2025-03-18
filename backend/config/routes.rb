@@ -8,5 +8,4 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   get "/news" => "news#index"
-  mount GrapeSwaggerRails::Engine => '/swagger'
 end
