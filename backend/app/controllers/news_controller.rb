@@ -4,53 +4,46 @@ class NewsController < ApplicationController
   require 'open-uri'
   require 'uri'
   require 'rss'
+  require 'cgi'
+
+  # カテゴリ一覧
+  # rss_urls = {
+  #   sport: "https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRFp1ZEdvU0FtcGhHZ0pLVUNnQVAB?hl=ja&gl=JP&ceid=JP%3Aja",
+  #   business: "https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGx6TVdZU0FtcGhHZ0pLVUNnQVAB?hl=ja&gl=JP&ceid=JP%3Aja",
+  #   technology: "https://news.google.com/rss/topics/CAAqKAgKIiJDQkFTRXdvSkwyMHZNR1ptZHpWbUVnSnFZUm9DU2xBb0FBUAE?hl=ja&gl=JP&ceid=JP%3Aja",
+  #   entertainment: "https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNREpxYW5RU0FtcGhHZ0pLVUNnQVAB?hl=ja&gl=JP&ceid=JP%3Aja"
+  # }
 
   def index
-    # カテゴリ一覧
-    rss_urls = {
-      sport: "https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRFp1ZEdvU0FtcGhHZ0pLVUNnQVAB?hl=ja&gl=JP&ceid=JP%3Aja",
-      # business: "https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGx6TVdZU0FtcGhHZ0pLVUNnQVAB?hl=ja&gl=JP&ceid=JP%3Aja",
-      # technology: "https://news.google.com/rss/topics/CAAqKAgKIiJDQkFTRXdvSkwyMHZNR1ptZHpWbUVnSnFZUm9DU2xBb0FBUAE?hl=ja&gl=JP&ceid=JP%3Aja",
-      # entertainment: "https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNREpxYW5RU0FtcGhHZ0pLVUNnQVAB?hl=ja&gl=JP&ceid=JP%3Aja"
-    }
+    query = params[:query]
+    encoded_query = CGI.escape(query) # クエリをエンコード
+    rss_url = "https://news.google.com/rss/search?q=#{encoded_query}&hl=ja&gl=JP&ceid=JP%3Aja"
 
-    # 各カテゴリごとにRSSから記事を取得し、要約を生成する
-    articles_by_category = rss_urls.keys.filter_map do |cat|
-      rss_url = rss_urls[cat]
-      uri = URI.parse(rss_url)
-      puts "Fetching RSS from: #{rss_url}"
-      rss_content = URI.open(rss_url).read
-      puts "RSS Content: #{rss_content}"
+    uri = URI.parse(rss_url)
+    puts "Fetching RSS from: #{rss_url}"
+    rss_content = URI.open(rss_url).read
+    puts "RSS Content: #{rss_content}"
+    rss = RSS::Parser.parse(rss_content, false)
 
-      begin
-        rss = RSS::Parser.parse(rss_content, false)
-      rescue StandardError => e
-        Rails.logger.error "RSS parse error: #{e.message}"
-        next
-      end
-
-      next if rss.nil?
-
-      # 取得する記事を最大3つに制限
-      articles = rss.items.first(3).map do |item|
-        {
-          title: item.title,
-          link: item.link,
-          description: item.description
-        }
-      end
-      # 記事をまとめてGeminiに送信し、要約を生成
-      gemini_response = get_summary_from_gemini(articles)
+    # 取得する記事を最大3つに制限
+    articles = rss.items.first(3).map do |item|
       {
-        category: cat,
-        title: gemini_response[:title],
-        links: articles.map { |a| a[:link] },
-        summary: gemini_response[:summary]
+        title: item.title,
+        link: item.link,
+        description: item.description
       }
     end
-    # フロントエンドにJSONで渡す
-    render json: articles_by_category
+    # 記事をまとめてGeminiに送信し、要約を生成
+    gemini_response = get_summary_from_gemini(articles)
+
+    render json:{
+      keyword: query,
+      title: gemini_response[:title],
+      links: articles.map { |a| a[:link] },
+      summary: gemini_response[:summary]
+    }
   end
+
 
   private
 
