@@ -39,7 +39,10 @@ const HomeContainer = () => {
       const genres = await fetchGenre();
       const interestGenres: Genre[] = [];
       for (const userGenreEvaluation of filteredGenres) {
-        if (userGenreEvaluation.evaluation === 5) {
+        if (
+          userGenreEvaluation.evaluation === 4 ||
+          userGenreEvaluation.evaluation === 5
+        ) {
           const matchingGenre = genres.find(
             (genre) => genre.id === userGenreEvaluation.genreId,
           );
