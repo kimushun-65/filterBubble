@@ -88,31 +88,10 @@ const LoginContainer: React.FC = () => {
           ログイン
         </button>
         <div
-          className='relative mt-6 cursor-pointer rounded py-3 text-center text-slate-700 hover:opacity-90'
+          className='mt-6 cursor-pointer rounded bg-gradient-to-r from-[#00D2FF] to-[#3A7BD5] py-3 text-center text-white hover:opacity-90'
           onClick={handleSignUp}
-          style={{
-            background: 'white',
-            boxShadow: '0 0 0 1px transparent',
-            border: '1px solid transparent',
-            backgroundClip: 'padding-box',
-            position: 'relative',
-          }}
         >
-          <span>アカウント作成</span>
-          <span
-            style={{
-              position: 'absolute',
-              inset: '-1px',
-              borderRadius: '0.25rem',
-              padding: '1px',
-              background: 'linear-gradient(to right, #00D2FF, #3A7BD5)',
-              WebkitMask:
-                'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-              WebkitMaskComposite: 'xor',
-              maskComposite: 'exclude',
-              pointerEvents: 'none',
-            }}
-          />
+          アカウント作成
         </div>
       </div>
       {isModalOpen && (
