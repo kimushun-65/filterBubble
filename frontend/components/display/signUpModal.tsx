@@ -63,62 +63,63 @@ const SignUpModal: React.FC<SignUpModalProps> = ({
   };
 
   return (
-    <div className='bg-opacity-90 fixed inset-0 z-50 flex items-center justify-center bg-[url("/bubble.jpeg")] bg-cover bg-center bg-no-repeat backdrop-blur-sm'>
-      <div className='w-96 rounded-lg bg-white p-8 shadow-xl'>
-        <Toaster position='top-center' />
-
-        <h2 className='mb-6 text-center text-2xl font-semibold text-slate-700'>
+    <div className='bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-white'>
+      <div className='flex flex-col items-center'>
+        <h2 className='mb-6 text-center text-4xl font-semibold text-slate-700'>
           アカウント作成
         </h2>
+        <div className='w-96 rounded-lg bg-white p-8 shadow-xl'>
+          <Toaster position='top-center' />
 
-        <div className='mb-4'>
-          <input
-            type='text'
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
-            placeholder='ユーザー名'
-            required
-            className='w-full rounded border border-gray-300 p-3'
-          />
-        </div>
+          <div className='mb-4'>
+            <input
+              type='text'
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+              placeholder='ユーザー名'
+              required
+              className='w-full rounded border border-gray-300 p-3'
+            />
+          </div>
 
-        <div className='mb-4'>
-          <input
-            type='password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder='パスワード'
-            required
-            className='w-full rounded border border-gray-300 p-3'
-          />
-        </div>
+          <div className='mb-4'>
+            <input
+              type='password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder='パスワード'
+              required
+              className='w-full rounded border border-gray-300 p-3'
+            />
+          </div>
 
-        <div className='mb-6'>
-          <input
-            type='password'
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder='パスワード（確認）'
-            required
-            className='w-full rounded border border-gray-300 p-3'
-          />
-        </div>
+          <div className='mb-6'>
+            <input
+              type='password'
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder='パスワード（確認）'
+              required
+              className='w-full rounded border border-gray-300 p-3'
+            />
+          </div>
 
-        <div className='flex space-x-4'>
-          <button
-            onClick={handleSignUp}
-            disabled={isLoading}
-            className='flex-1 rounded bg-slate-700 py-3 text-white transition-colors hover:bg-slate-800 disabled:bg-slate-400'
-          >
-            {isLoading ? '処理中...' : '登録'}
-          </button>
+          <div className='flex space-x-4'>
+            <button
+              onClick={handleSignUp}
+              disabled={isLoading}
+              className='flex-1 rounded bg-gradient-to-r from-blue-600 to-purple-600 py-3 text-white transition-colors hover:bg-gradient-to-r hover:from-blue-700 hover:to-purple-700 disabled:bg-slate-400'
+            >
+              {isLoading ? '処理中...' : '登録'}
+            </button>
 
-          <button
-            onClick={onClose}
-            className='flex-1 rounded border border-slate-300 py-3 text-slate-700 transition-colors hover:bg-slate-100'
-          >
-            キャンセル
-          </button>
+            <button
+              onClick={onClose}
+              className='flex-1 rounded border border-slate-300 py-3 text-slate-700 transition-colors hover:bg-slate-100'
+            >
+              キャンセル
+            </button>
+          </div>
         </div>
       </div>
     </div>
