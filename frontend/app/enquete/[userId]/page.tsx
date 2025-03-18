@@ -21,6 +21,7 @@ import {
 import Loading from '@/components/display/loading';
 import { UserGenresEvaluation } from '@/types/userGenresEvaluation';
 import { fetchGenresEvaluation } from '@/hooks/fetchGenresEvaluation';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Enquete = () => {
   const [genres, setGenres] = useState<Genre[]>([]);
@@ -106,11 +107,22 @@ const Enquete = () => {
           evaluation: genre.evaluation,
           createdAt: genre.createdAt,
         });
-        console.log('Document written with ID: ', docRef.id);
       } catch (err) {
         console.error('Firestore書き込みエラー:', err);
+        toast.error('評価の送信に失敗しました');
+        return;
       }
     }
+
+    // Promiseを使用してtoastの表示を待つ
+    await new Promise((resolve) => {
+      toast.success('評価を送信しました');
+      setTimeout(() => {
+        resolve(true);
+      }, 1500);
+    });
+
+    setIsLoading(true);
     router.push(`/home/${params.userId}`);
   };
 
@@ -122,6 +134,7 @@ const Enquete = () => {
     <div className='flex h-screen flex-col justify-between bg-[#fcfcf9] text-center'>
       <Header />
       <div className='flex flex-col items-center justify-center'>
+        <Toaster position='top-right' />
         <h2 className='mb-8 text-2xl font-bold'>
           Please add a point of interest
         </h2>
