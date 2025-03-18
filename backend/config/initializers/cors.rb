@@ -7,7 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins "https://filter-bubble.vercel.app/"
+    origins "https://filter-bubble.vercel.app", "https://bfbbackend.ikoto.me"
 
     resource "*",
       headers: :any,

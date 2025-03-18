@@ -24,6 +24,10 @@ export const ArticleContainer = () => {
       try {
         const response = await fetch(
           `https://bfbbackend.ikoto.me/news?keyword=${keyword}`,
+          {
+            method: 'GET',
+            credentials: 'include',
+          },
         );
 
         const data = await response.json();
