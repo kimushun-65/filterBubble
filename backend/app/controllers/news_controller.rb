@@ -43,6 +43,7 @@ class NewsController < ApplicationController
       gemini_response = get_summary_from_gemini(articles)
       {
         category: cat,
+        title: gemini_response[:title],
         links: articles.map { |a| a[:link] },
         summary: gemini_response[:summary]
       }
@@ -63,9 +64,10 @@ class NewsController < ApplicationController
     # 生成する記事の内容
     sys_instraction = "あなたは、記事の分野を知らない人にも理解できる記事を作成するジャーナリストです。回答は記事本文のみでお願いします。"
     content = "これらの文章から日本語の新しい記事を１つ生成しなさい。記事は以下の条件を満たす必要があります。:\n"
-    content << "- 関連性が高く、小見出しがつながった順序になっている。\n"
-    content << "- 全体を500字程度にする。\n"
-    content << "- 小見出しをまとめた大きな見出しをつける。\n"
+    content << "以下の2つの項目を必ず返してください:\n"
+    content << "- **タイトル**: 記事の要点を簡潔にまとめたもの（最大30字）\n"
+    content << "- **本文**: 関連性が高く、Markdown形式で絶対に500字程度の内容\n"
+    content << "- 「以下に、各ニュース記事の概要をまとめます」類の言葉はいらない。\n"
     content << "\n文章は以下の通り。:\n"
     content << combined_text
 
@@ -77,23 +79,20 @@ class NewsController < ApplicationController
     # リクエストヘッダーは、リクエストに関する情報を含むヘッダーです。リクエストヘッダーは、リクエストの種類、リクエストの送信元、リクエストの送信先、リクエストの送信先のリソースなどを指定します。
     request["Content-Type"] = "application/json" 
     # リクエストボディを設定
-    # リクエストボディは、リクエストに含まれるデータです。リクエストボディは、リクエストの種類によって異なります。たとえば、HTMLフォームのデータ、JSONデータ、XMLデータなどがリクエストボディに含まれます。 
-    request.body = {
-      contents: [
-        { parts: [{ text: combined_text }] }
-      ]
-    }.to_json # リクエストボディをJSON形式に変換
+    # リクエストボディは、リクエストに含まれるデータです。リクエストボディは、リクエストの種類によって異なります。たとえば、HTMLフォームのデータ、JSONデータ、XMLデータなどがリクエストボディに含まれます。
+    # リクエストボディをJSON形式に変換 
+    request.body = { contents: [{ parts: [{ text: content }] }] }.to_json
 
-    # Geminiに要約をリクエスト
-    response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
-      http.request(request)
-    end
-
-    # レスポンスをパースして要約を取得
+    # Geminiに要約をリクエスト  
+    response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(request) }
     json_response = JSON.parse(response.body, symbolize_names: true)
-    {
-      # 要約が取得できなかった場合は、"Summary unavailable"を返す
-      summary: json_response[:candidates]&.first&.dig(:content, :parts, 0, :text) || "Summary unavailable"
-    }
+
+    response_text = json_response[:candidates]&.first&.dig(:content, :parts, 0, :text) || "Summary unavailable"
+    
+    # タイトルと本文を分離 (Markdownの見出しを利用)
+    title = response_text.match(/^\#*(.+)$/)&.captures&.first || "タイトル不明"
+    summary = response_text.sub(/^\ .+\n/, '')
+
+    { title: title, summary: summary }
   end
 end
