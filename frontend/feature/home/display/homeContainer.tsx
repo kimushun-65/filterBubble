@@ -18,6 +18,7 @@ import { CircleDollarSign } from 'lucide-react';
 import { BookX } from 'lucide-react';
 import { Landmark } from 'lucide-react';
 import { Bike } from 'lucide-react';
+import { ReactIcon } from '../button/react-icon';
 
 const HomeContainer = () => {
   const { userId } = useParams();
@@ -105,37 +106,9 @@ const HomeContainer = () => {
           className='mt-12 flex w-1/2 items-center justify-center gap-2 bg-gradient-to-r from-[#00D2FF] to-[#3A7BD5] py-6 text-xl hover:opacity-90'
           onClick={handleGetArticles}
         >
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            width='20'
-            height='20'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='2'
-            strokeLinecap='round'
-            strokeLinejoin='round'
-          >
-            <circle cx='12' cy='12' r='10'></circle>
-            <path d='M12 8v8'></path>
-            <path d='M8 12h8'></path>
-          </svg>
+          <ReactIcon />
           Get articles
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            width='20'
-            height='20'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='2'
-            strokeLinecap='round'
-            strokeLinejoin='round'
-          >
-            <circle cx='12' cy='12' r='10'></circle>
-            <path d='M12 8v8'></path>
-            <path d='M8 12h8'></path>
-          </svg>
+          <ReactIcon />
         </Button>
 
         <div className='w-full rounded-lg border p-6 shadow-xl'>
