@@ -165,7 +165,7 @@ const HomeContainer = () => {
           <div className='mt-6'>
             <Button
               variant='outline'
-              className='border-gradient flex w-full items-center justify-center gap-2 border-2 bg-white from-[#00D2FF] to-[#3A7BD5] py-4 text-[#3A7BD5]'
+              className='relative flex w-full items-center justify-center gap-2 border-0 bg-white py-4 text-[#3A7BD5] before:absolute before:inset-0 before:-z-10 before:rounded-md before:bg-gradient-to-r before:from-[#00D2FF] before:to-[#3A7BD5] after:absolute after:inset-[2px] after:-z-10 after:rounded-md after:bg-white'
               onClick={handleAgain}
             >
               <svg
