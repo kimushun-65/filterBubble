@@ -26,9 +26,13 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./frontend:/usr/src/app
+      - ./frontend:/app
+    command: npm run dev
     environment:
+      TAILWIND_DISABLE_OXIDE: "1"
       # NEXT_PUBLIC_XXX などFirebaseの環境変数を設定する場合
       NEXT_PUBLIC_FIREBASE_API_KEY: "your-api-key"
       NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: "your-auth-domain"
       NEXT_PUBLIC_FIREBASE_PROJECT_ID: "your-project-id"
+    depends_on:
+      - backend

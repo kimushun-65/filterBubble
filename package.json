@@ -1,7 +1,4 @@
 {
-  "devDependencies": {
-    "prettier-plugin-tailwindcss": "^0.6.11"
-  },
   "dependencies": {
     "firebase": "^11.4.0"
   }
