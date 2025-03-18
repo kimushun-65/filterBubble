@@ -22,7 +22,7 @@ import { ReactIcon } from '../button/react-icon';
 
 const HomeContainer = () => {
   const { userId } = useParams();
-  const [userGenresEvaluation, setUserGenresEvaluation] = useState<
+  const [filteredGenresEvaluation, setFilteredGenresEvaluation] = useState<
     UserGenresEvaluation[]
   >([]);
   const [interestGenres, setInterestGenres] = useState<Genre[]>([]);
@@ -34,13 +34,13 @@ const HomeContainer = () => {
   useEffect(() => {
     const fetchUserGenresEvaluation = async () => {
       const userGenresEvaluation = await fetchGenresEvaluation();
-      const filteredGenres = userGenresEvaluation.filter(
+      const filteredGenresEvaluation = userGenresEvaluation.filter(
         (genre) => genre.userId === userId,
       );
-      setUserGenresEvaluation(filteredGenres);
+      setFilteredGenresEvaluation(filteredGenresEvaluation);
       const genres = await fetchGenre();
       const interestGenres: Genre[] = [];
-      for (const userGenreEvaluation of filteredGenres) {
+      for (const userGenreEvaluation of filteredGenresEvaluation) {
         if (
           userGenreEvaluation.evaluation === 4 ||
           userGenreEvaluation.evaluation === 5
@@ -76,7 +76,9 @@ const HomeContainer = () => {
       setDifficultyGenres(difficultyGenres);
     };
     fetchUserGenresEvaluation();
-    setIsLoading(false);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
   }, [userId]);
 
   const handleGetArticles = () => {
@@ -92,6 +94,7 @@ const HomeContainer = () => {
   };
 
   const handleAgain = () => {
+    setIsLoading(true);
     router.push(`/enquete/${userId}`);
   };
   if (isLoading) {
@@ -103,16 +106,7 @@ const HomeContainer = () => {
       <Header />
 
       <main className='flex flex-grow flex-col items-center justify-start gap-24 px-4'>
-        <Button
-          className='mt-12 flex w-1/2 items-center justify-center gap-2 bg-gradient-to-r from-[#00D2FF] to-[#3A7BD5] py-6 text-xl hover:opacity-90'
-          onClick={handleGetArticles}
-        >
-          <ReactIcon />
-          Get articles
-          <ReactIcon />
-        </Button>
-
-        <div className='w-full rounded-lg border p-6 shadow-xl'>
+        <div className='mt-32 w-full rounded-lg border p-6 shadow-xl'>
           <div className='relative mb-6 pl-6'>
             <div className='absolute top-0 left-0 h-full w-2 rounded-md bg-gradient-to-b from-[#00D2FF] via-[#1A9FE5] to-[#3A7BD5]'></div>
             <h2 className='text-2xl font-semibold text-slate-800'>
@@ -208,6 +202,14 @@ const HomeContainer = () => {
             </Button>
           </div>
         </div>
+        <Button
+          className='mt-12 flex w-1/2 items-center justify-center gap-2 bg-gradient-to-r from-[#00D2FF] to-[#3A7BD5] py-6 text-xl hover:opacity-90'
+          onClick={handleGetArticles}
+        >
+          <ReactIcon />
+          Get articles
+          <ReactIcon />
+        </Button>
       </main>
 
       <Footer />

@@ -51,28 +51,13 @@ const LoginContainer: React.FC = () => {
   }
 
   return (
-    <div className='relative flex min-h-screen flex-col items-center justify-center'>
-      <div className='absolute inset-0 z-0'>
-        <Image
-          src='/bubble.jpeg'
-          alt='Bubble Background'
-          fill
-          style={{ objectFit: 'cover' }}
-          priority
-        />
-      </div>
-
+    <div className='relative flex min-h-screen flex-col items-center justify-center bg-white'>
       <Toaster position='top-right' />
-
-      <h1 className='z-10 mb-16 flex justify-center text-4xl font-bold text-black'>
-        Break Filter Bubble
+      <h1 className='border-b-gradient-to-r relative z-10 mb-16 flex justify-center border-b-2 from-[#00D2FF] to-[#3A7BD5] px-4 py-2 text-4xl font-bold text-black after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:bg-gradient-to-r after:from-[#00D2FF] after:to-[#3A7BD5]'>
+        Login
       </h1>
 
-      <div className='bg-opacity-80 z-10 w-96 rounded-lg bg-gray-100 p-10 shadow-xl'>
-        <h2 className='mb-8 text-center text-3xl font-semibold text-slate-700'>
-          Login
-        </h2>
-
+      <div className='bg-opacity-80 z-10 w-96 rounded-lg border p-10 shadow-xl'>
         <div className='mb-6'>
           <input
             type='text'
@@ -97,12 +82,12 @@ const LoginContainer: React.FC = () => {
 
         <button
           onClick={handleLogin}
-          className='w-full rounded bg-slate-700 py-3 text-white transition-colors hover:bg-slate-800'
+          className='w-full rounded bg-gradient-to-r from-[#00D2FF] to-[#3A7BD5] py-3 text-white transition-colors hover:opacity-90'
         >
           ログイン
         </button>
         <div
-          className='mt-6 cursor-pointer text-center text-slate-700 hover:underline'
+          className='mt-6 cursor-pointer rounded bg-gradient-to-r from-[#00D2FF] to-[#3A7BD5] py-3 text-center text-white hover:opacity-90'
           onClick={handleSignUp}
         >
           アカウント作成
