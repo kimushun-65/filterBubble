@@ -23,9 +23,7 @@ export const ArticleContainer = () => {
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const response = await fetch(
-          `/api/article?keyWord=${encodeURIComponent(keyWord)}`,
-        );
+        const response = await fetch(`/api/news?keyWord=${keyWord}`);
         const data = await response.json();
         setTitle(data.article.articles.title);
         setContent(data.article.articles.content);
