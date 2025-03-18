@@ -39,7 +39,10 @@ const HomeContainer = () => {
       const genres = await fetchGenre();
       const interestGenres: Genre[] = [];
       for (const userGenreEvaluation of filteredGenres) {
-        if (userGenreEvaluation.evaluation === 5) {
+        if (
+          userGenreEvaluation.evaluation === 4 ||
+          userGenreEvaluation.evaluation === 5
+        ) {
           const matchingGenre = genres.find(
             (genre) => genre.id === userGenreEvaluation.genreId,
           );
@@ -163,7 +166,7 @@ const HomeContainer = () => {
                   case 'サイエンス':
                     GenreIcon = FlaskConical;
                     break;
-                  case '社会環境問題':
+                  case '社会・環境問題':
                     GenreIcon = Handshake;
                     break;
                   case '歴史':
