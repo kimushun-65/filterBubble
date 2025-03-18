@@ -24,8 +24,6 @@ const Rating: React.FC<RatingProps> = ({
   const [hoverRating, setHoverRating] = useState<number>(0);
   const [clickedRating, setClickedRating] = useState<number>(0);
 
-  console.log('hoverRating', hoverRating);
-
   return (
     <div className='flex items-center gap-1'>
       {Array.from({ length: totalStars }, (_, index) => {
