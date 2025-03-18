@@ -1,22 +1,36 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/firebase/config';
 import toast, { Toaster } from 'react-hot-toast';
 
 interface SignUpModalProps {
   onClose?: () => void;
+  setIsLoading: (isLoading: boolean) => void;
+  isLoading: boolean;
 }
 
-const SignUpModal: React.FC<SignUpModalProps> = ({ onClose }) => {
+const SignUpModal: React.FC<SignUpModalProps> = ({
+  onClose,
+  setIsLoading,
+  isLoading,
+}) => {
   const router = useRouter();
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+
+  const generateRandomId = () => {
+    const chars =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < 20; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+  };
 
   const handleSignUp = async () => {
-    // Basic validation
     if (!userName || !password) {
       toast.error('ユーザー名とパスワードを入力してください');
       return;
@@ -27,28 +41,19 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ onClose }) => {
       return;
     }
 
-    setIsLoading(true);
-
     try {
-      // Add user to Firestore
-      const userRef = collection(db, 'users');
-      await addDoc(userRef, {
+      const usersCollection = collection(db, 'users');
+      const userId = generateRandomId();
+      const userDocRef = doc(usersCollection, userId);
+      await setDoc(userDocRef, {
         userName,
-        password, // Note: In a real app, you should hash passwords
+        password,
         createdAt: serverTimestamp(),
       });
 
       toast.success('アカウント作成成功');
-
-      // Close modal if onClose prop exists
-      if (onClose) {
-        onClose();
-      }
-
-      // Navigate to home page after a short delay
-      setTimeout(() => {
-        router.push('/home');
-      }, 1500);
+      setIsLoading(true);
+      router.push(`/enquete/${userId}`);
     } catch (error) {
       console.error('Error creating user:', error);
       toast.error('アカウント作成に失敗しました');
@@ -58,7 +63,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ onClose }) => {
   };
 
   return (
-    <div className='bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-gray-500'>
+    <div className='bg-opacity-90 fixed inset-0 z-50 flex items-center justify-center bg-[url("/bubble.jpeg")] bg-cover bg-center bg-no-repeat backdrop-blur-sm'>
       <div className='w-96 rounded-lg bg-white p-8 shadow-xl'>
         <Toaster position='top-center' />
 

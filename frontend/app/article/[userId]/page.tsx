@@ -1,7 +1,9 @@
+'use client';
+import { ArticleContainer } from '@/feature/article/articleContainer';
 import React from 'react';
 
 const Article = () => {
-  return <div>Article</div>;
+  return <ArticleContainer />;
 };
 
 export default Article;
