@@ -12,7 +12,8 @@ export const ArticleContainer = () => {
   const router = useRouter();
   const params = useParams();
   const userId = params.userId as string;
-  const keyword = decodeURIComponent(params.keyWord as string); // URLエンコードをデコード
+  const keyword = decodeURIComponent(params.keyword as string); // URLエンコードをデコード
+  console.log(keyword);
   const [isLoading, setIsLoading] = useState(true);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
