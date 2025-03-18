@@ -4,17 +4,30 @@ import { useState } from 'react';
 import { fetchGenre } from '@/hooks/fetchGenre';
 import { Genre } from '@/types/genres';
 import { EvaluatedGenre } from '@/types/genres';
-import Image from 'next/image';
+import Footer from "@/components/display/footer";
+import Header from "@/components/display/header";
 import { useParams } from 'next/navigation';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '@/firebase/config';
 import RatingDisplay from '@/components/ui/ratingDisplay';
+import styles from "./page.module.css";
+import { Handshake } from 'lucide-react';
+import { Computer } from 'lucide-react';
+import { FlaskConical } from 'lucide-react';
+import { Church } from 'lucide-react';
+import { CircleDollarSign } from 'lucide-react';
+import { BookX } from 'lucide-react';
+import { Landmark } from 'lucide-react';
+import { Bike } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+
 
 const Enquete = () => {
   const [evaluatedGenres, setEvaluatedGenres] = useState<EvaluatedGenre[]>([]);
   const [genres, setGenres] = useState<Genre[]>([]);
   const params = useParams();
   const userId = String(params.userId);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,31 +83,86 @@ const Enquete = () => {
     });
   };
 
+  const navigateToHome = () => {
+    router.push(`/home/${params.userId}`);
+  }
+
   console.log(evaluatedGenres);
   return (
-    <div>
-      <ul>
-        {genres?.map((genre) => {
-          return (
-            <li key={genre.id} >
-              <Image
-                src='/museum.svg'
-                width={25}
-                height={25}
-                alt='画像'
-              ></Image>
-              <p>{genre.genreName}</p>
-              <RatingDisplay
-                onChange={setEvaluation}
-                genre={genre}
-              ></RatingDisplay>
-            </li>
-          );
-        })}
-      </ul>
-      <button aria-label='送信する' onClick={updateEvaluation}>
-        submit
-      </button>
+    <div className={styles.container}>
+      <Header />
+
+      <div className={styles.enqueteContainer}>
+        <h2 className={styles.instruction}>Please add a point of interest</h2>
+        <div className={styles.enquete}>
+          <p className={styles.title}>your interest genre</p>
+          <ul >
+            {genres?.map((genre) => {
+            let GenreIcon;
+            switch (genre.genreName) {
+              case 'スポーツ':
+                GenreIcon = Bike;
+                break;
+              case '宗教':
+                GenreIcon = Church;
+                break;
+              case 'IT':
+                GenreIcon = Computer;
+                break;
+              case '経済':
+                GenreIcon = CircleDollarSign;
+                break;
+              case 'サイエンス':
+                GenreIcon = FlaskConical;
+                break;
+              case '社会・環境問題':
+                GenreIcon = Handshake;
+                break;
+              case '歴史':
+                GenreIcon = BookX;
+                break;
+              case '政治':
+                GenreIcon = Landmark;
+                break;
+              default:
+                GenreIcon = Bike;
+                break;
+            }
+              
+              return (
+                <li 
+                  key={genre.id}
+                  className={styles.listItem}
+                > 
+                  <div className={styles.genres}>
+                    <GenreIcon 
+                      size={20} 
+                      className={styles.icon}
+                    />
+                    <p className={styles.genreName}>{genre.genreName}</p>
+                  </div>
+                  <RatingDisplay
+                    onChange={setEvaluation}
+                    genre={genre}
+                  ></RatingDisplay>
+                </li>
+              );
+            })}
+          </ul>
+          <button 
+            aria-label='送信する' 
+            onClick={()=>{
+              updateEvaluation();
+              navigateToHome();
+            }}
+            className={styles.submitButton}
+          >
+            submit
+          </button>
+        </div>
+      </div>
+      
+      <Footer/>
     </div>
   );
 };
