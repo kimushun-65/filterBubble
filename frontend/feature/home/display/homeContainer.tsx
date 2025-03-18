@@ -165,13 +165,13 @@ const HomeContainer = () => {
           <div className='mt-6'>
             <Button
               variant='outline'
-              className='relative flex w-full items-center justify-center gap-2 border-0 bg-white py-4 text-[#3A7BD5] before:absolute before:inset-0 before:-z-10 before:rounded-md before:bg-gradient-to-r before:from-[#00D2FF] before:to-[#3A7BD5] after:absolute after:inset-[2px] after:-z-10 after:rounded-md after:bg-white'
+              className='relative flex w-full items-center justify-center gap-2 border bg-gradient-to-r from-[#00D2FF] to-[#3A7BD5] py-4 text-xl text-white'
               onClick={handleAgain}
             >
               <svg
                 xmlns='http://www.w3.org/2000/svg'
-                width='18'
-                height='18'
+                width='24'
+                height='24'
                 viewBox='0 0 24 24'
                 fill='none'
                 stroke='currentColor'
@@ -186,8 +186,8 @@ const HomeContainer = () => {
               Select Again
               <svg
                 xmlns='http://www.w3.org/2000/svg'
-                width='18'
-                height='18'
+                width='24'
+                height='24'
                 viewBox='0 0 24 24'
                 fill='none'
                 stroke='currentColor'
