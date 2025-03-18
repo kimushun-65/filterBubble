@@ -31,52 +31,50 @@ class NewsController < ApplicationController
 
       next if rss.nil?
 
-      # 各記事のタイトル、リンク、概要を抽出
-      articles = rss.items.map do |item|
+      # 取得する記事を最大3つに制限
+      articles = rss.items.first(3).map do |item|
         {
           title: item.title,
           link: item.link,
           description: item.description
         }
       end
-
-      # Gemini APIに送信して簡単な記事に変換する
-      articles_with_summary = articles.map do |article|
-        gemini_response = get_summary_from_gemini(article[:link])
-        {
-          title: article[:title],
-          link: article[:link],
-          description: article[:description],
-          summary: gemini_response[:summary]
-        }
-      end
-
+      # 記事をまとめてGeminiに送信し、要約を生成
+      gemini_response = get_summary_from_gemini(articles)
       {
         category: cat,
-        articles: articles_with_summary
+        summary: gemini_response[:summary]
       }
     end
-
     # フロントエンドにJSONで渡す
     render json: articles_by_category
   end
 
   private
 
-  def get_summary_from_gemini(url)
-    gemini_url = "https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent"
+  def get_summary_from_gemini(articles)
+    gemini_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
     api_key = "AIzaSyBzOUe2vppfM7oRTN7XmHYABNeuu65NpF8"
+
+    # 記事のリンクを一つの文章としてまとめてGeminiに送信
+    combined_text = articles.map { |article| "Summarize this article: #{article[:link]}" }.join("\n")
 
     uri = URI.parse("#{gemini_url}?key=#{api_key}")
     request = Net::HTTP::Post.new(uri)
     request["Content-Type"] = "application/json"
-    request.body = { contents: [{ parts: [{ text: "Summarize this article: #{url}" }] }] }.to_json
+    request.body = {
+      contents: [
+        { parts: [{ text: combined_text }] }
+      ]
+    }.to_json
 
     response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
       http.request(request)
     end
 
     json_response = JSON.parse(response.body, symbolize_names: true)
-    { summary: json_response[:candidates]&.first&.dig(:content, :parts, 0, :text) || "Summary unavailable" }
+    {
+      summary: json_response[:candidates]&.first&.dig(:content, :parts, 0, :text) || "Summary unavailable"
+    }
   end
 end
