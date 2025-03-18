@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
+import ReactMarkdown from 'react-markdown';
 import Loading from '@/components/display/loading';
 import Header from '@/components/display/header';
 import Footer from '@/components/display/footer';
@@ -59,10 +60,47 @@ export const ArticleContainer = () => {
             </div>
             <div className='px-3 pt-2'>
               <h3 className='mb-2 text-center text-base font-bold'>記事内容</h3>
-              <div className='mb-3 max-h-[430px] overflow-y-auto'>
-                <p className='text-sm whitespace-pre-line text-gray-700'>
+              <div className='mb-3 max-h-[430px] overflow-y-auto text-sm text-gray-700'>
+                <ReactMarkdown
+                  components={{
+                    h1: ({ children }) => (
+                      <h1 className='mt-4 mb-2 text-2xl font-bold text-gray-900'>
+                        {children}
+                      </h1>
+                    ),
+                    h2: ({ children }) => (
+                      <h2 className='mt-3 mb-2 text-xl font-semibold text-gray-800'>
+                        {children}
+                      </h2>
+                    ),
+                    h3: ({ children }) => (
+                      <h3 className='mt-2 mb-1 text-lg font-medium text-gray-700'>
+                        {children}
+                      </h3>
+                    ),
+                    p: ({ children }) => (
+                      <p className='text-base leading-relaxed text-gray-600'>
+                        {children}
+                      </p>
+                    ),
+                    ul: ({ children }) => (
+                      <ul className='list-inside list-disc'>{children}</ul>
+                    ),
+                    li: ({ children }) => <li className='ml-4'>{children}</li>,
+                    a: ({ children, href }) => (
+                      <a
+                        href={href}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='text-blue-600 underline'
+                      >
+                        {children}
+                      </a>
+                    ),
+                  }}
+                >
                   {content}
-                </p>
+                </ReactMarkdown>
               </div>
             </div>
             <div className='mt-8 px-3 pb-3'>
