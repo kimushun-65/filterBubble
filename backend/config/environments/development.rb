@@ -69,5 +69,5 @@ Rails.application.configure do
   # config.generators.apply_rubocop_autocorrect_after_generate!
 
   # さらに、config.hosts.clear を追加して、ホスト名の検証を無効にします。
-  config.hosts.clear
+  config.hosts << "bfbbackend.ikoto.me"
 end
