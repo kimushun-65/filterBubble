@@ -43,6 +43,7 @@ class NewsController < ApplicationController
       gemini_response = get_summary_from_gemini(articles)
       {
         category: cat,
+        links: articles.map { |a| a[:link] },
         summary: gemini_response[:summary]
       }
     end
