@@ -19,7 +19,7 @@ const RatingDisplay: React.FC<RatingDisplayProps> = ({ onChange, genre }) => {
         setRating={setRating}
         genre={genre}
       />
-      <p className='mt-2'>現在の評価: {rating}</p>
+      {/* <p className='mt-2'>現在の評価: {rating}</p> */}
     </div>
   );
 };
