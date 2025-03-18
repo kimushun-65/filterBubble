@@ -43,36 +43,38 @@ export const ArticleContainer = () => {
       <Header />
       <main className='flex flex-grow flex-col'>
         {/* Genre banner */}
-        <div className='w-full bg-gradient-to-r from-blue-300 to-blue-500 py-6 text-center'>
-          <h2 className='text-2xl font-bold text-white'>ジャンル名</h2>
+        <div className='w-full bg-gradient-to-r from-blue-300 to-blue-500 py-3 text-center'>
+          <h2 className='text-lg font-bold text-white'>ジャンル名</h2>
         </div>
 
         {/* Article card */}
-        <div className='flex flex-grow justify-center px-4 py-8'>
+        <div className='flex flex-grow justify-center px-2 py-3'>
           <div className='flex w-full max-w-lg flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm'>
             {/* Title section */}
-            <div className='p-6 text-center'>
-              <h1 className='mb-2 text-3xl font-bold text-gray-800'>{title}</h1>
+            <div className='p-3 text-center'>
+              <h1 className='mb-1 text-xl font-bold text-gray-800'>{title}</h1>
               <div className='mx-auto h-0.5 w-full bg-blue-400'></div>
             </div>
 
             {/* Content section */}
-            <div className='px-6 pt-4'>
-              <h3 className='mb-4 text-center text-xl font-bold'>記事内容</h3>
-              <div className='mb-6 max-h-[400px] overflow-y-auto'>
-                <p className='whitespace-pre-line text-gray-700'>{content}</p>
+            <div className='px-3 pt-2'>
+              <h3 className='mb-2 text-center text-base font-bold'>記事内容</h3>
+              <div className='mb-3 max-h-[300px] overflow-y-auto'>
+                <p className='text-sm whitespace-pre-line text-gray-700'>
+                  {content}
+                </p>
               </div>
             </div>
 
             {/* Home button */}
-            <div className='px-6 pb-6'>
+            <div className='px-3 pb-3'>
               <Button
-                className='flex w-full items-center justify-center gap-2 rounded-md bg-blue-500 py-3 text-white hover:bg-blue-600'
+                className='flex w-full items-center justify-center gap-2 rounded-md bg-blue-500 py-2 text-sm text-white hover:bg-blue-600'
                 onClick={handleHomeClick}
               >
-                <Settings className='h-5 w-5' />
+                <Settings className='h-4 w-4' />
                 home
-                <Settings className='h-5 w-5' />
+                <Settings className='h-4 w-4' />
               </Button>
             </div>
           </div>
