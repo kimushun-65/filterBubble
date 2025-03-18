@@ -12,7 +12,7 @@ export const ArticleContainer = () => {
   const router = useRouter();
   const params = useParams();
   const userId = params.userId as string;
-  const keyword = decodeURIComponent(params.keyword as string); // URLエンコードをデコード
+  const keyword = decodeURIComponent(params.keyWord as string); // URLエンコードをデコード
   const [isLoading, setIsLoading] = useState(true);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -21,14 +21,11 @@ export const ArticleContainer = () => {
 
   useEffect(() => {
     const fetchArticle = async () => {
+      const url = `/api/news?keyword=${keyword}`;
+      console.log('Fetching article from:', url);
       try {
-        const response = await fetch(
-          `https://bfbbackend.ikoto.me/news?keyword=${keyword}`,
-          {
-            method: 'GET',
-            credentials: 'include',
-          },
-        );
+        const response = await fetch(url);
+        console.log(response);
 
         const data = await response.json();
         console.log(data);
