@@ -69,12 +69,12 @@ export const ArticleContainer = () => {
                       </h1>
                     ),
                     h2: ({ children }) => (
-                      <h2 className='mt-3 mb-2 text-xl font-semibold text-gray-800'>
+                      <h2 className='mt-3 mb-2 text-xl font-bold text-gray-800'>
                         {children}
                       </h2>
                     ),
                     h3: ({ children }) => (
-                      <h3 className='mt-2 mb-1 text-lg font-medium text-gray-700'>
+                      <h3 className='mt-2 mb-1 text-lg font-bold text-gray-700'>
                         {children}
                       </h3>
                     ),
