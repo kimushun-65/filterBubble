@@ -16,8 +16,9 @@ export const ArticleContainer = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [links, setLinks] = useState<{ title: string; url: string }[]>([]);
+  const [links, setLinks] = useState<string>('');
   const [isOpen, setIsOpen] = useState(false);
+  console.log(links);
 
   useEffect(() => {
     const fetchArticle = async () => {
@@ -29,6 +30,8 @@ export const ArticleContainer = () => {
         setTitle(data.article.articles.title);
         setContent(data.article.articles.content);
         setLinks(data.article.articles.link);
+        console.log(data);
+        console.log(data.article.articles.link);
         setTimeout(() => {
           setIsLoading(false);
         }, 1500);
@@ -121,12 +124,10 @@ export const ArticleContainer = () => {
           </div>
         </div>
         {isOpen && (
-          <div className='bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black p-4'>
+          <div className='bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center p-4'>
             <div className='relative max-h-[80vh] w-full max-w-md overflow-hidden rounded-lg bg-white shadow-lg'>
               <div className='flex items-center justify-between border-b border-gray-200 p-4'>
-                <h3 className='text-lg font-semibold text-gray-900'>
-                  引用記事一覧
-                </h3>
+                <h3 className='text-lg font-semibold text-gray-900'>引用元</h3>
                 <Button
                   variant='ghost'
                   size='icon'
@@ -139,21 +140,16 @@ export const ArticleContainer = () => {
               <div className='max-h-[60vh] overflow-y-auto p-4'>
                 {links && links.length > 0 ? (
                   <ul className='space-y-3'>
-                    {links.map((link, index) => (
-                      <li
-                        key={index}
-                        className='rounded-md border border-gray-200 p-3 hover:bg-gray-50'
+                    <li className='rounded-md border border-gray-200 p-3 hover:bg-gray-50'>
+                      <a
+                        href={links}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='block text-blue-600 hover:underline'
                       >
-                        <a
-                          href={link.url}
-                          target='_blank'
-                          rel='noopener noreferrer'
-                          className='block text-blue-600 hover:underline'
-                        >
-                          {link.title || link.url}
-                        </a>
-                      </li>
-                    ))}
+                        {links}
+                      </a>
+                    </li>
                   </ul>
                 ) : (
                   <p className='text-center text-gray-500'>
