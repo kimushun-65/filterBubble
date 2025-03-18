@@ -163,7 +163,7 @@ const HomeContainer = () => {
                   case 'サイエンス':
                     GenreIcon = FlaskConical;
                     break;
-                  case '社会環境問題':
+                  case '社会・環境問題':
                     GenreIcon = Handshake;
                     break;
                   case '歴史':
