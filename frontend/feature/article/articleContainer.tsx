@@ -6,7 +6,7 @@ import Loading from '@/components/display/loading';
 import Header from '@/components/display/header';
 import Footer from '@/components/display/footer';
 import { Button } from '@/components/ui/button';
-import { Settings } from 'lucide-react';
+import { Settings, X } from 'lucide-react';
 
 export const ArticleContainer = () => {
   const router = useRouter();
@@ -16,6 +16,8 @@ export const ArticleContainer = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [links, setLinks] = useState<{ title: string; url: string }[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const fetchArticle = async () => {
@@ -26,6 +28,7 @@ export const ArticleContainer = () => {
         const data = await response.json();
         setTitle(data.article.articles.title);
         setContent(data.article.articles.content);
+        setLinks(data.article.articles.link);
         setTimeout(() => {
           setIsLoading(false);
         }, 1500);
@@ -38,11 +41,6 @@ export const ArticleContainer = () => {
     };
     fetchArticle();
   }, [keyWord]);
-
-  const handleHomeClick = () => {
-    setIsLoading(true);
-    router.push(`/home/${userId}`);
-  };
 
   if (isLoading) {
     return <Loading />;
@@ -113,15 +111,64 @@ export const ArticleContainer = () => {
             <div className='mt-8 px-3 pb-3'>
               <Button
                 className='flex w-full items-center justify-center gap-2 rounded-md bg-blue-500 py-2 text-sm text-white hover:bg-blue-600'
-                onClick={handleHomeClick}
+                onClick={() => setIsOpen(!isOpen)}
               >
                 <Settings className='h-4 w-4' />
-                home
+                引用記事
                 <Settings className='h-4 w-4' />
               </Button>
             </div>
           </div>
         </div>
+        {isOpen && (
+          <div className='bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black p-4'>
+            <div className='relative max-h-[80vh] w-full max-w-md overflow-hidden rounded-lg bg-white shadow-lg'>
+              <div className='flex items-center justify-between border-b border-gray-200 p-4'>
+                <h3 className='text-lg font-semibold text-gray-900'>
+                  引用記事一覧
+                </h3>
+                <Button
+                  variant='ghost'
+                  size='icon'
+                  onClick={() => setIsOpen(false)}
+                  className='h-8 w-8 rounded-full p-0'
+                >
+                  <X className='h-5 w-5' />
+                </Button>
+              </div>
+              <div className='max-h-[60vh] overflow-y-auto p-4'>
+                {links && links.length > 0 ? (
+                  <ul className='space-y-3'>
+                    {links.map((link, index) => (
+                      <li
+                        key={index}
+                        className='rounded-md border border-gray-200 p-3 hover:bg-gray-50'
+                      >
+                        <a
+                          href={link.url}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                          className='block text-blue-600 hover:underline'
+                        >
+                          {link.title || link.url}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className='text-center text-gray-500'>
+                    引用記事はありません
+                  </p>
+                )}
+              </div>
+              <div className='border-t border-gray-200 p-4'>
+                <Button className='w-full' onClick={() => setIsOpen(false)}>
+                  閉じる
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
       <Footer />
     </div>
