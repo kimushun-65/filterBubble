@@ -16,7 +16,7 @@ export const ArticleContainer = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [links, setLinks] = useState<string>('');
+  const [links, setLinks] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   console.log(links);
 
@@ -139,16 +139,21 @@ export const ArticleContainer = () => {
               <div className='max-h-[60vh] overflow-y-auto p-4'>
                 {links && links.length > 0 ? (
                   <ul className='space-y-3'>
-                    <li className='rounded-md border border-gray-200 p-3 hover:bg-gray-50'>
-                      <a
-                        href={links}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                        className='block text-blue-600 hover:underline'
+                    {links.map((link, index) => (
+                      <li
+                        key={index}
+                        className='rounded-md border border-gray-200 p-3 hover:bg-gray-50'
                       >
-                        {links}
-                      </a>
-                    </li>
+                        <a
+                          href={link}
+                          target='_blank'
+                          rel='noopener noreferrer'
+                          className='block text-blue-600 hover:underline'
+                        >
+                          {link}
+                        </a>
+                      </li>
+                    ))}
                   </ul>
                 ) : (
                   <p className='text-center text-gray-500'>
