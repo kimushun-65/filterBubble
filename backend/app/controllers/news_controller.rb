@@ -57,23 +57,41 @@ class NewsController < ApplicationController
     api_key = "AIzaSyBzOUe2vppfM7oRTN7XmHYABNeuu65NpF8"
 
     # 記事のリンクを一つの文章としてまとめてGeminiに送信
-    combined_text = articles.map { |article| "Summarize this article: #{article[:link]}" }.join("\n")
+    combined_text = articles.map { |article| "#{article[:title]}: #{article[:description]}" }.join("\n")
 
-    uri = URI.parse("#{gemini_url}?key=#{api_key}")
-    request = Net::HTTP::Post.new(uri)
-    request["Content-Type"] = "application/json"
+    # 生成する記事の内容
+    sys_instraction = "あなたは、記事の分野を知らない人にも理解できる記事を作成するジャーナリストです。回答は記事本文のみでお願いします。"
+    content = "これらの文章から日本語の新しい記事を１つ生成しなさい。記事は以下の条件を満たす必要があります。:\n"
+    content << "- 関連性が高く、小見出しがつながった順序になっている。\n"
+    content << "- 全体を500字程度にする。\n"
+    content << "- 小見出しをまとめた大きな見出しをつける。\n"
+    content << "\n文章は以下の通り。:\n"
+    content << combined_text
+
+    # URIオブジェクトを作成
+    uri = URI.parse("#{gemini_url}?key=#{api_key}") 
+    # POSTリクエストを作成
+    request = Net::HTTP::Post.new(uri)  
+    # リクエストヘッダーを設定
+    # リクエストヘッダーは、リクエストに関する情報を含むヘッダーです。リクエストヘッダーは、リクエストの種類、リクエストの送信元、リクエストの送信先、リクエストの送信先のリソースなどを指定します。
+    request["Content-Type"] = "application/json" 
+    # リクエストボディを設定
+    # リクエストボディは、リクエストに含まれるデータです。リクエストボディは、リクエストの種類によって異なります。たとえば、HTMLフォームのデータ、JSONデータ、XMLデータなどがリクエストボディに含まれます。 
     request.body = {
       contents: [
         { parts: [{ text: combined_text }] }
       ]
-    }.to_json
+    }.to_json # リクエストボディをJSON形式に変換
 
+    # Geminiに要約をリクエスト
     response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
       http.request(request)
     end
 
+    # レスポンスをパースして要約を取得
     json_response = JSON.parse(response.body, symbolize_names: true)
     {
+      # 要約が取得できなかった場合は、"Summary unavailable"を返す
       summary: json_response[:candidates]&.first&.dig(:content, :parts, 0, :text) || "Summary unavailable"
     }
   end
