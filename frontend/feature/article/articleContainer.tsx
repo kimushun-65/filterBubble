@@ -113,7 +113,7 @@ export const ArticleContainer = () => {
             </div>
             <div className='mt-8 px-3 pb-3'>
               <Button
-                className='flex w-full items-center justify-center gap-2 rounded-md bg-blue-500 py-2 text-sm text-white hover:bg-blue-600'
+                className='flex w-full items-center justify-center gap-2 rounded-md bg-gradient-to-r from-[#00D2FF] to-[#3A7BD5] py-2 text-sm text-white hover:opacity-90'
                 onClick={() => setIsOpen(!isOpen)}
               >
                 <Settings className='h-4 w-4' />
@@ -124,15 +124,14 @@ export const ArticleContainer = () => {
           </div>
         </div>
         {isOpen && (
-          <div className='bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center p-4'>
-            <div className='relative max-h-[80vh] w-full max-w-md overflow-hidden rounded-lg bg-white shadow-lg'>
+          <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-8 backdrop-blur-sm'>
+            <div className='relative flex max-h-[80vh] w-full max-w-md flex-col overflow-hidden rounded-lg bg-white shadow-lg'>
               <div className='flex items-center justify-between border-b border-gray-200 p-4'>
                 <h3 className='text-lg font-semibold text-gray-900'>引用元</h3>
                 <Button
-                  variant='ghost'
                   size='icon'
                   onClick={() => setIsOpen(false)}
-                  className='h-8 w-8 rounded-full p-0'
+                  className='h-8 w-8 rounded-full bg-gradient-to-r from-[#00D2FF] to-[#3A7BD5] p-0 text-white hover:opacity-90'
                 >
                   <X className='h-5 w-5' />
                 </Button>
@@ -158,7 +157,10 @@ export const ArticleContainer = () => {
                 )}
               </div>
               <div className='border-t border-gray-200 p-4'>
-                <Button className='w-full' onClick={() => setIsOpen(false)}>
+                <Button
+                  className='w-full bg-gradient-to-r from-[#00D2FF] to-[#3A7BD5] text-white hover:opacity-90'
+                  onClick={() => setIsOpen(false)}
+                >
                   閉じる
                 </Button>
               </div>
