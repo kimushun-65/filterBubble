@@ -23,7 +23,7 @@ export const ArticleContainer = () => {
     const fetchArticle = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3001/news?keyword=${keyword}`,
+          `https://bfbbackend.ikoto.me/news?keyword=${keyword}`,
         );
 
         const data = await response.json();
