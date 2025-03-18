@@ -22,7 +22,7 @@ import { ReactIcon } from '../button/react-icon';
 
 const HomeContainer = () => {
   const { userId } = useParams();
-  const [userGenresEvaluation, setUserGenresEvaluation] = useState<
+  const [filteredGenresEvaluation, setFilteredGenresEvaluation] = useState<
     UserGenresEvaluation[]
   >([]);
   const [interestGenres, setInterestGenres] = useState<Genre[]>([]);
@@ -34,13 +34,13 @@ const HomeContainer = () => {
   useEffect(() => {
     const fetchUserGenresEvaluation = async () => {
       const userGenresEvaluation = await fetchGenresEvaluation();
-      const filteredGenres = userGenresEvaluation.filter(
+      const filteredGenresEvaluation = userGenresEvaluation.filter(
         (genre) => genre.userId === userId,
       );
-      setUserGenresEvaluation(filteredGenres);
+      setFilteredGenresEvaluation(filteredGenresEvaluation);
       const genres = await fetchGenre();
       const interestGenres: Genre[] = [];
-      for (const userGenreEvaluation of filteredGenres) {
+      for (const userGenreEvaluation of filteredGenresEvaluation) {
         if (
           userGenreEvaluation.evaluation === 4 ||
           userGenreEvaluation.evaluation === 5

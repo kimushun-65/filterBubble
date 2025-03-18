@@ -52,11 +52,13 @@ export const ArticleContainer = () => {
             キーワード：{keyWord}
           </h2>
         </div>
-        <div className='flex flex-grow justify-center px-2 py-3'>
+        <div className='flex flex-grow justify-center px-4 py-3'>
           <div className='flex w-full max-w-lg flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm'>
             <div className='p-3 text-center'>
               <h1 className='mb-1 text-xl font-bold text-gray-800'>{title}</h1>
-              <div className='mx-auto h-0.5 w-full bg-blue-400'></div>
+              <div className='relative'>
+                <div className='absolute bottom-0 left-0 h-0.5 w-full bg-gradient-to-r from-[#00D2FF] to-[#3A7BD5]'></div>
+              </div>
             </div>
             <div className='px-3 pt-2'>
               <h3 className='mb-2 text-center text-base font-bold'>記事内容</h3>
