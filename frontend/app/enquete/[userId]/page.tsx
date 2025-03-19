@@ -99,6 +99,7 @@ const Enquete = () => {
 
   // Firestoreに書き込み
   const updateEvaluation = async () => {
+    setCanSubmit(true);
     for (const genre of genres) {
       try {
         const docRef = await addDoc(collection(db, 'usersGenresEvaluation'), {

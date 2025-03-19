@@ -140,10 +140,7 @@ export const ArticleContainer = () => {
                 {links && links.length > 0 ? (
                   <ul className='space-y-3'>
                     {links.map((link, index) => (
-                      <li
-                        key={index}
-                        className='rounded-md border border-gray-200 p-3 hover:bg-gray-50'
-                      >
+                      <li key={index} className='p-3 hover:bg-gray-50'>
                         <a
                           href={link}
                           target='_blank'
