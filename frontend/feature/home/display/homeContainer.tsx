@@ -106,8 +106,8 @@ const HomeContainer = () => {
     <div className='flex min-h-screen flex-col'>
       <Header />
 
-      <main className='flex flex-grow flex-col items-center justify-start gap-24 px-4'>
-        <div className='mt-32 w-full rounded-lg border p-6 shadow-xl'>
+      <main className='flex flex-grow flex-col items-center justify-start gap-8 px-4'>
+        <div className='mt-20 w-full rounded-lg border p-6 shadow-xl'>
           <div className='relative mb-6 pl-6'>
             <div className='absolute top-0 left-0 h-full w-2 rounded-md bg-gradient-to-b from-[#00D2FF] via-[#1A9FE5] to-[#3A7BD5]'></div>
             <h2 className='text-2xl font-semibold text-slate-800'>
